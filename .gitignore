@@ -1,0 +1,50 @@
+# macOS
+.DS_Store
+
+# 备份的嵌套 git 元数据(迁移到统一仓库后遗留)
+.git-inner-backup/
+
+# Xcode
+build/
+DerivedData/
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.xccheckout
+*.xcscmblueprint
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Xcode 生成的 workspace 用户数据
+*.xcworkspace/xcuserdata/
+*.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Packages/
+Package.resolved
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/Build/
+
+# 本地敏感文件(API Key 不应进仓库)
+*.env
+secrets.json
+Config.local.xcconfig
+
+# 临时文件
+*.tmp
+*.log
