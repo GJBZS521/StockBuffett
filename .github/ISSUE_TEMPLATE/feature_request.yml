@@ -1,0 +1,55 @@
+name: 功能需求（Feature）
+description: 新功能或改动 —— 场景 / 期望 / 验收标准三要素
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        两端 AI 结对开发模式下，Issue 是需求的唯一真相源。
+        写得越具体，实现越准；验收标准决定 PR 怎么验、算不算做完。
+
+  - type: textarea
+    id: scenario
+    attributes:
+      label: 背景场景
+      description: 什么场景下需要它？现在的做法和痛点是什么？
+    validations:
+      required: true
+
+  - type: textarea
+    id: expectation
+    attributes:
+      label: 期望行为
+      description: 期望的表现、界面预期；边界情况（数据为空 / 失败 / 重复操作）怎么办？
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 验收标准
+      description: 满足什么就算做完？写成可勾选的 checklist，每条可独立验证
+      placeholder: |
+        - [ ] 场景 A 下表现为 …
+        - [ ] 输入为空时 …
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 优先级
+      options:
+        - "P0 - v0.1 缺它不行"
+        - "P1 - v0.1 尽量有"
+        - "P2 - 以后再说"
+    validations:
+      required: true
+
+  - type: input
+    id: milestone
+    attributes:
+      label: 目标版本
+      description: 例如 v0.1 / v0.2 / Backlog
+    validations:
+      required: false
