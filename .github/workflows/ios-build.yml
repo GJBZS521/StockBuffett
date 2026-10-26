@@ -1,0 +1,58 @@
+# iOS 编译验证 CI
+#
+# 作用:每个 PR 自动在 macOS runner 上跑 xcodebuild 编译,
+#      让 Windows 侧开发者在没有 Mac 的情况下获得编译反馈,
+#      同事合并前不再需要人肉验证「能不能编过」。
+# 运行时机:目标为 main 的 Pull Request + 手动触发(Actions 页 → Run workflow)。
+# 说明:仓库目前没有单元测试 target(M6 待做),先只做编译验证;
+#      测试 target 建好后放开文件末尾注释掉的 Test 步骤即可。
+
+name: iOS Build
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: xcodebuild (iOS Simulator)
+    runs-on: macos-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Build
+        working-directory: stockbuffett
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project stockbuffett.xcodeproj \
+            -scheme stockbuffett \
+            -configuration Debug \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            build \
+            | xcbeautify
+
+      # M6 建好测试 target 后放开:
+      # - name: Test
+      #   working-directory: stockbuffett
+      #   run: |
+      #     set -o pipefail
+      #     xcodebuild \
+      #       -project stockbuffett.xcodeproj \
+      #       -scheme stockbuffett \
+      #       -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+      #       test \
+      #       | xcbeautify
